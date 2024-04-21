@@ -1,29 +1,110 @@
 const express = require("express");
+const { MongoClient } = require("mongodb");
+const { ObjectId } = require("mongodb");
+const cors = require('cors');
+
 const app = express();
-const {MongoClient}= require("mongodb");
 const PORT = process.env.PORT || 8000;
-
-
+app.use(cors());
 app.use(express.json({ extended: false }));
-try {
-    app.get("/articles/:name", async (req, res) => {
-        const articleName = req.params.name;
-        const client = await MongoClient.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1');
-        const db = client.db("mernblog");
-        const articleInfo = await db.collection('articles').findOne({ name: articleName });
-        res.status(200).json(articleInfo);
-        client.close();
-    });
-} catch (error) {
-    res.status(500).json({message:"Error in connecting to db",error});
-}
 
 
-app.post("/articles/:name/add-comments", (req, res) => {
-    const { username, text , date } = req.body;
-    const articleName = req.params.name;
-    articlesInfo[articleName].comments.push({ username, text , date });
-    res.status(200).send(articlesInfo[articleName]);
+// Middleware to handle MongoDB connection
+const withDB = async (operations, res) => {
+    try {
+      const client = await MongoClient.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1');
+      const db = await client.db("mernblog");
+      await operations(db, res);
+      client.close();
+    } catch (e) {
+      console.error("Error in connecting to db:", e);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Error in connecting to db", error: e });
+      }
+    }
+};
+
+  
+// GET all blog posts
+app.get("/articles/posts", async (req, res) => {
+  withDB(async (db, res) => {
+    const posts = await db.collection("posts").find().toArray();
+    res.json(posts);
+  }, res);
 });
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+// GET a single blog post by ID
+app.get("/articles/posts/:id", async (req, res) => {
+    const postId = req.params.id;
+    withDB(async (db, res) => {
+      const post = await db.collection("posts").findOne({ _id: new ObjectId(postId) }); // Use new ObjectId
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      res.json(post);
+    }, res);
+  });
+
+// POST a new blog post
+app.post("/articles/posts", async (req, res) => {
+    const { title, content } = req.body;
+    if (!title || !content) {
+      return res.status(400).json({ message: "Title and content are required" });
+    }
+    withDB(async (db, res) => {
+      try {
+        const result = await db.collection("posts").insertOne({ title, content });
+        console.log("Insertion result:", result);
+        res.status(201).json({ message: "Posted Successfully" });
+      } catch (error) {
+        console.error("Error in inserting post:", error);
+        res.status(500).json({ message: "Error in inserting post", error });
+      }
+    }, res);
+  });
+  
+
+// PUT (update) an existing blog post by ID
+app.put("/articles/posts/:id", async (req, res) => {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+    
+    // Validate postId
+    if (!ObjectId.isValid(postId)) {
+      return res.status(400).json({ message: "Invalid postId format" });
+    }
+    
+    // Check if title and content are provided
+    if (!title || !content) {
+      return res.status(400).json({ message: "Title and content are required" });
+    }
+  
+    // Update the post
+    withDB(async (db, response) => {
+      const result = await db.collection("posts").updateOne(
+        { _id: new ObjectId(postId) }, // Create ObjectId instance
+        { $set: { title, content } }
+      );
+      if (result.modifiedCount === 0) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      res.json({message:"Post updated successfully"});
+    }, res); // Use a different variable name for the response object inside withDB
+  });
+  
+// DELETE a blog post by ID
+
+app.delete("/articles/posts/:id", async (req, res) => {
+    const postId = req.params.id;
+    withDB(async (db, res) => {
+      const post = await db.collection("posts").deleteOne({ _id: new ObjectId(postId) }); // Use new ObjectId
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      res.json({ message: "Post deleted successfully" });
+    }, res);
+  });
+  
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

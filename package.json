@@ -4,12 +4,13 @@
   "description": "blog app's backend",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon"
+    "server": "nodemon server.js"
   },
   "keywords": [],
   "author": "Ckprashanth",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "mongosh": "^2.2.2"
   },

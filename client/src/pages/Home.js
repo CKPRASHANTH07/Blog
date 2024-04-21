@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/articles/posts');
+      setPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
   return (
     <>
    
@@ -16,7 +33,7 @@ const Home = () => {
                         With fellow bloggers
                     </h1>
                     <p className="mt-8 text-xl text-black">We help you to make your remote work life easier. Build a distruction free working experience.</p>
-                    <p className="mt-5 text-base text-black">Feel Free to Post Blogs</p>
+                    <Link to="/create" className="mt-5 text-base text-green-500 hover:text-2xl transition-all">Feel Free to Post Blogs</Link>
                 </div>
             </div>
         </div>
@@ -40,70 +57,18 @@ const Home = () => {
 
         <div className="grid max-w-md grid-cols-1 gap-6 mx-auto mt-8 lg:mt-16 lg:grid-cols-3 lg:max-w-full">
 
-
-            <button className="overflow-hidden bg-white rounded shadow">
-                <div className="p-5">
-                    
-                       
-                            <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/blog/2/blog-post-1.jpg" alt="" />
-                    
-
-                    <p className="mt-5 text-2xl font-semibold">
-                           How to build coffee inside your home in 5 minutes.
-                    </p>
-
-                    <p className="mt-4 text-base text-gray-600">
-                      Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-                      </p>
-
-                    <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600">
-                        Continue Reading
-                    </p>
-                </div>
-            </button>
-
-            <button className="overflow-hidden bg-white rounded shadow">
-                <div className="p-5">
-                    
-                       
-                            <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/blog/2/blog-post-1.jpg" alt="" />
-                    
-
-                    <p className="mt-5 text-2xl font-semibold">
-                           How to build coffee inside your home in 5 minutes.
-                    </p>
-
-                    <p className="mt-4 text-base text-gray-600">
-                      Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-                      </p>
-
-                    <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600">
-                        Continue Reading
-                    </p>
-                </div>
-            </button>
-            <button className="overflow-hidden bg-white rounded shadow">
-                <div className="p-5">
-                    
-                       
-                            <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/blog/2/blog-post-1.jpg" alt="" />
-                    
-
-                    <p className="mt-5 text-2xl font-semibold">
-                           How to build coffee inside your home in 5 minutes.
-                    </p>
-
-                    <p className="mt-4 text-base text-gray-600">
-                      Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-                      </p>
-
-                    <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600">
-                        Continue Reading
-                    </p>
-                </div>
-            </button>
-            
-            
+        {posts.slice(0, 3).map(post => (
+    <div key={post._id} className="overflow-y-hidden w-[400px] bg-white rounded shadow">
+        <div className="p-5">
+            <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/blog/2/blog-post-1.jpg" alt="" />
+            <p className="mt-5 text-2xl font-semibold">{post.title}</p>
+            <p className="mt-4 text-base text-gray-600">{post.content}</p>
+            <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600">
+                Continue Reading
+            </p>
+        </div>
+    </div>
+))}
 
         </div>
         

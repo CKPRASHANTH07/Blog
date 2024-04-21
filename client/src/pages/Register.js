@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios'; // Import Axios
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     const [companyName, setCompanyName] = useState('');
     const [ownerName, setOwnerName] = useState('');
-    const [rollNo, setRollNo] = useState('');
     const [ownerEmail, setOwnerEmail] = useState('');
     const [accessCode, setAccessCode] = useState('');
 
@@ -14,7 +14,6 @@ const Register = () => {
         const formData = {
             companyName,
             ownerName,
-            rollNo,
             ownerEmail,
             accessCode
         };
@@ -32,7 +31,7 @@ const Register = () => {
         <div className='flex justify-center'>
             <section className="bg-white ">
                 
-                    <div className="flex flex-col items-center justify-center px-4 py-10 bg-white">
+                    <div className="flex flex-col items-center justify-center px-4 py-16 bg-white">
                     <h2 className="text-3xl font-bold leading-tight pb-8 text-black sm:text-4xl">Register</h2>
                         <div className="w-[400px] sm:w-[500px] p-10 shadow-2xl rounded-xl">
                             
@@ -45,7 +44,7 @@ const Register = () => {
                                                 type="text"
                                                 value={companyName}
                                                 onChange={(e) => setCompanyName(e.target.value)}
-                                                placeholder="Enter your company name"
+                                                placeholder="Company/University name"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
                                         </div>
@@ -54,19 +53,11 @@ const Register = () => {
                                                 type="text"
                                                 value={ownerName}
                                                 onChange={(e) => setOwnerName(e.target.value)}
-                                                placeholder="Enter Ownername"
+                                                placeholder="Enter your name"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
                                         </div>
-                                        <div className="mt-2.5">
-                                            <input
-                                                type="text"
-                                                value={rollNo}
-                                                onChange={(e) => setRollNo(e.target.value)}
-                                                placeholder="Enter your Rollno"
-                                                className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
-                                            />
-                                        </div>
+                                        
                                         <div className="mt-2.5">
                                             <input
                                                 type="text"
@@ -81,7 +72,7 @@ const Register = () => {
                                                 type="text"
                                                 value={accessCode}
                                                 onChange={(e) => setAccessCode(e.target.value)}
-                                                placeholder="Enter accessCode"
+                                                placeholder="Enter password"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
                                         </div>
@@ -91,6 +82,7 @@ const Register = () => {
                                             Create account
                                         </button>
                                     </div>
+                                    <Link to="/login" className='text-green-500 hover:text-2xl transition-all'>Already a user? Login then</Link>
                                 </div>
                             </form>
                         </div>
