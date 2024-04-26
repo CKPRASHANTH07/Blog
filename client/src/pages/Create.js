@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const PostForm = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('hello');
+  const [content, setContent] = useState('hello');
+  const [username, setUsername] = useState('hello');
+  const [company, setCompany] = useState('hello');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/articles/posts', { title, content });
+      const response = await axios.post('http://localhost:8000/articles/posts', { title, content,username, company });
       console.log('Response:', response.data);
       // Optionally, you can reset the form fields here
       setTitle('');
       setContent('');
+      setUsername('');
+      setCompany('');
       setErrorMessage('');
     } catch (error) {
       console.error('Error posting content:', error.response.data);
@@ -33,6 +36,24 @@ const PostForm = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter heading"
+              className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter YourName"
+              className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              placeholder="Enter YourCompany/University"
               className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
             />
           </div>

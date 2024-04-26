@@ -47,13 +47,13 @@ app.get("/articles/posts/:id", async (req, res) => {
 
 // POST a new blog post
 app.post("/articles/posts", async (req, res) => {
-    const { title, content } = req.body;
-    if (!title || !content) {
+    const { title, content, username, company } = req.body;
+    if (!title.trim() || !content.trim() || !username.trim() || !company.trim() ) {
       return res.status(400).json({ message: "Title and content are required" });
     }
     withDB(async (db, res) => {
       try {
-        const result = await db.collection("posts").insertOne({ title, content });
+        const result = await db.collection("posts").insertOne({ title, content, username, company });
         console.log("Insertion result:", result);
         res.status(201).json({ message: "Posted Successfully" });
       } catch (error) {
@@ -67,7 +67,7 @@ app.post("/articles/posts", async (req, res) => {
 // PUT (update) an existing blog post by ID
 app.put("/articles/posts/:id", async (req, res) => {
     const postId = req.params.id;
-    const { title, content } = req.body;
+    const { title, content, username, company } = req.body;
     
     // Validate postId
     if (!ObjectId.isValid(postId)) {
@@ -75,7 +75,7 @@ app.put("/articles/posts/:id", async (req, res) => {
     }
     
     // Check if title and content are provided
-    if (!title || !content) {
+    if (!title || !content || !username || !company) {
       return res.status(400).json({ message: "Title and content are required" });
     }
   
@@ -83,7 +83,7 @@ app.put("/articles/posts/:id", async (req, res) => {
     withDB(async (db, response) => {
       const result = await db.collection("posts").updateOne(
         { _id: new ObjectId(postId) }, // Create ObjectId instance
-        { $set: { title, content } }
+        { $set: { title, content, username, company } }
       );
       if (result.modifiedCount === 0) {
         return res.status(404).json({ message: "Post not found" });

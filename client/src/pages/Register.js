@@ -3,19 +3,19 @@ import axios from 'axios'; // Import Axios
 import { Link } from 'react-router-dom';
 
 const Register = () => {
-    const [companyName, setCompanyName] = useState('');
-    const [ownerName, setOwnerName] = useState('');
-    const [ownerEmail, setOwnerEmail] = useState('');
-    const [accessCode, setAccessCode] = useState('');
+    const [company, setCompany] = useState('');
+    const [username, setUsername] = useState('');
+    const [useremail, setUseremail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const formData = {
-            companyName,
-            ownerName,
-            ownerEmail,
-            accessCode
+            company,
+            username,
+            useremail,
+            password
         };
 
         axios.post('', formData)
@@ -42,8 +42,8 @@ const Register = () => {
                                         <div className="mt-2.5">
                                             <input
                                                 type="text"
-                                                value={companyName}
-                                                onChange={(e) => setCompanyName(e.target.value)}
+                                                value={company}
+                                                onChange={(e) => setCompany(e.target.value)}
                                                 placeholder="Company/University name"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
@@ -51,8 +51,8 @@ const Register = () => {
                                         <div className="mt-2.5">
                                             <input
                                                 type="text"
-                                                value={ownerName}
-                                                onChange={(e) => setOwnerName(e.target.value)}
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)}
                                                 placeholder="Enter your name"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
@@ -61,8 +61,8 @@ const Register = () => {
                                         <div className="mt-2.5">
                                             <input
                                                 type="text"
-                                                value={ownerEmail}
-                                                onChange={(e) => setOwnerEmail(e.target.value)}
+                                                value={useremail}
+                                                onChange={(e) => setUseremail(e.target.value)}
                                                 placeholder="Enter your mail"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
@@ -70,8 +70,8 @@ const Register = () => {
                                         <div className="mt-2.5">
                                             <input
                                                 type="text"
-                                                value={accessCode}
-                                                onChange={(e) => setAccessCode(e.target.value)}
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
                                                 placeholder="Enter password"
                                                 className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                                             />
@@ -82,7 +82,7 @@ const Register = () => {
                                             Create account
                                         </button>
                                     </div>
-                                    <Link to="/login" className='text-green-500 hover:text-2xl transition-all'>Already a user? Login then</Link>
+                                    <Link to="/login" className='text-green-500 hover:text-xl transition-all'>Already a user? Login then</Link>
                                 </div>
                             </form>
                         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter,Route,Routes } from "react-router-dom";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Create from "./pages/Create";
 import Articles from "./pages/Articles";
@@ -11,7 +11,7 @@ import Footer from "./navfoot/Footer";
 
 function App() {
   return (
-    
+  
    <BrowserRouter>
    <div className="fixed bg-white w-full">
    <Navbar />
@@ -19,11 +19,11 @@ function App() {
    <Routes>
    
    <Route path="/" element={<Home />}/>
-    <Route path="/login" element={<Login />}/>
+    <Route path="/Login" element={<Login />}/>
     <Route path="/Register" element={<Register />}/>
-    <Route path="/create" element={<Create />}/>
+    <Route path="/Create" element={<Create />}/>
     <Route path="/Articles" element={<Articles />}/>
-    <Route path="/update" element={<Update />}/>
+    <Route path="/Update" element={<Update />}/>
    </Routes>
    <Footer />
    </BrowserRouter>

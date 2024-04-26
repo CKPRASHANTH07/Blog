@@ -1,7 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import axios from 'axios'
 
-const login = () => {
+const Login = () => {
+    const [password,setPassword] = useState('');
+    const [useremail,setUseremail] = useState('');
+    const handleSubmit = (e)=>{
+    e.preventDefault();
+
+    const formData = {
+        password,
+        useremail
+    };
+
+    axios.post('',formData).then(response =>{
+        console.log('Submitted Successfully', response.data);
+    })
+    .catch(error =>{
+        console.error('Error Submitting Form',error)
+    });
+
+    };
   return (
     <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -13,13 +33,14 @@ const login = () => {
         <div className=" max-w-md mx-auto mt-8 md:mt-16">
             <div className="overflow-hidden bg-white rounded-md shadow-md">
                 <div className="px-4 py-6 sm:px-8 sm:py-7">
-                    <form action="" method="POST">
+                    <form onSubmit={handleSubmit} action="" method="POST">
                         <div className="space-y-5">
                            
                                 <label for="" className="text-base font-medium text-gray-900"> Email address </label>
 
                                 <div className="mt-2.5  text-gray-400 focus-within:text-gray-600">
                                     <input
+                                     onChange={(e) => setUseremail(e.target.value)}
                                         type="email"
                                         name=""
                                         id=""
@@ -30,6 +51,7 @@ const login = () => {
                                 
                                 <div className="mt-2.5  text-gray-400 focus-within:text-gray-600">
                                     <input
+                                    onChange={(e) => setPassword(e.target.value)}
                                         type="password"
                                         name=""
                                         id=""
@@ -58,4 +80,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

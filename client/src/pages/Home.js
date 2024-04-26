@@ -12,7 +12,7 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:8000/articles/posts');
-      setPosts(response.data);
+      setPosts(response.data.reverse());
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -63,6 +63,8 @@ const Home = () => {
             <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/blog/2/blog-post-1.jpg" alt="" />
             <p className="mt-5 text-2xl font-semibold">{post.title}</p>
             <p className="mt-4 text-base text-gray-600">{post.content}</p>
+            <p className="mt-4 text-xl text-black">{post.username}</p>
+            <p className="mt-4 text-base text-gray-400">{post.company}</p>
             <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600">
                 Continue Reading
             </p>

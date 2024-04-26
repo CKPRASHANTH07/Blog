@@ -11,7 +11,7 @@ const Articles = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:8000/articles/posts');
-      setPosts(response.data);
+      setPosts(response.data.reverse());
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -29,8 +29,8 @@ const Articles = () => {
                   <h2 className="sm:text-3xl font-bold text-xl ">{post.title}</h2>
                   <p className="overflow-hidden max-h-[137px] sm:text-2xl leading-relaxed text-[15px] text-black">{post.content}</p>
                   <div className="mt-6 lg:mt-auto">
-                    <p className="sm:text-xl text-[15px] font-semibold text-black">Jenny Wilson</p>
-                    <p className="mt-2 text-base text-[10px] sm:text-xl text-gray-600">Co-founder, Appson</p>
+                    <p className="sm:text-xl text-[15px] font-semibold text-black">{post.username}</p>
+                    <p className="mt-2 text-base text-[10px] sm:text-xl text-gray-600">{post.company}</p>
                   </div>
                   <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600 w-fit">Continue Reading</p>
                 </div>
