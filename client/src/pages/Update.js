@@ -17,6 +17,15 @@ const Update = () => {
     }
   };
 
+  const handleDelete = async (postId) => {
+    try {
+      await axios.delete(`http://localhost:8000/articles/posts/${postId}`);
+      setPosts(posts.filter(post => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
   return (
     <>
       {posts.map(post => (
@@ -32,7 +41,11 @@ const Update = () => {
                     <p className="sm:text-xl text-[15px] font-semibold text-black">{post.username}</p>
                     <p className="mt-2 text-base text-[10px] sm:text-xl text-gray-600">{post.company}</p>
                   </div>
-                  <p className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600 w-fit">Continue Reading</p>
+                  <div className='flex space-x-10'>
+                    <button className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-blue-600 transition-all duration-200 border-b-2 border-transparent hover:border-blue-600 focus:border-blue-600 w-fit">Continue Reading</button>
+                    <button onClick={() => handleDelete(post._id)} className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-red-600 transition-all duration-200 border-b-2 border-transparent hover:border-red-600 focus:border-red-600 w-fit">Delete</button>
+                    <button className="inline-flex items-center justify-center pb-0.5 mt-5 text-base font-semibold text-yellow-600 transition-all duration-200 border-b-2 border-transparent hover:border-yellow-600 focus:border-yellow-600 w-fit">Edit</button>
+                  </div>
                 </div>
               </div>
             </div>
